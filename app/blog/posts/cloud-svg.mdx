@@ -1,0 +1,163 @@
+---
+title: 'Can ChatGPT-o1 complete a junior frontend developer's task?'
+publishedAt: '2024-10-19'
+summary: 'Giving ChatGPT a task I was moderately challenged by as a junior frontend developer, and seeing if it can complete it.'
+---
+
+When I first embarked on my journey as a junior software engineer (about 14 years ago), I remember working on a frontend project that required me to partially fill a "cloud" SVG with a solid color to represent a fancy progress bar.
+
+Being a junior developer in a new position and eager to prove my skills, I remember frantically googling for solutions and only running into examples of filling entire SVG objects.
+After tinkering with this problem for some time, I came up with a nifty solution that involved manipulating gradient stops
+
+<CloudLoader id="1" />
+
+The trick was to use a linear gradient with two stops, one with a transparent color and the other with a solid color. 
+By manipulating the offset of these stops, the gradient would shift and gradually fill the cloud with color as the data loads.
+
+Given the lack of online resources about this specific technique, I remember thinking it was a pretty neat trick and wanting to write a blog post about it, something I never got around to doing until now.
+
+## My Solution
+
+Here is a modern example of the same technique I used back then.
+
+
+```jsx
+
+const CloudFillHuman: React.FC<CloudFillProps> = ({ percentage }) => {
+  /* 
+   calculate the offset of the gradient stops based on the passed 
+   percentage and render the cloud filled with the gradient 
+  */
+  const clampedPercentage = Math.max(0, Math.min(percentage, 100));
+  const offset = 100 - clampedPercentage;
+
+  return (
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      width="200" 
+      height="200" 
+      strokeWidth={0.5} 
+      viewBox="0 0 24 24" 
+      stroke="#fff"
+    >
+      /* Define the Gradient with two stops */
+      <defs>
+        <linearGradient id="cloud-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset={`${offset}%`} style={{stopColor: "#ffffff00", stopOpacity: 0}} />
+          <stop offset={`${offset}%`} style={{stopColor: "#5cc6fe", stopOpacity: 1}} />
+        </linearGradient>
+      </defs>
+
+      /* Define the Shape to be filled */
+      <path 
+        fill="url(#cloud-gradient)" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+        d ="M 2.25 15a4.5 4.5 0 0 0 4.5 4.5
+           H 18a3.75 3.75 0 0 0 1.332-7.257 
+           3 3 0 0 0-3.758-3.848 5.25 5.25 
+           0 0 0-10.233 2.33 A 4.502 4.502 
+           0 0 0 2.25 15Z"
+      />
+    </svg>
+  )
+};
+
+```
+
+Given the massive amount of online data that LLM models have been trained on, and the time that has passed since I first solved this problem, 
+I was curious to see how ChatGPT-o1 would solve it today. So I decided to put it to the test.
+
+## The Prompt
+
+Here is the prompt I used to test ChatGPT-o1. To be fair I gave it pretty clear instructions, something I wish my boss at the time had done.
+
+<Prompt>
+  I have an SVG in the shape of a cloud, I want you to write a typescript function 
+  that takes an integer number between 0 and 100 as input and partially fill the cloud with a solid color.
+  For example, if the input value is 50, I expect half the cloud to be filled with the color blue and the other half to be transparent. 
+  
+  here is the SVG shape ...
+</Prompt>
+
+O1 thought for 30 seconds and then provided the following solution
+
+```jsx
+
+const CloudFill: React.FC<CloudWithFillProps> = ({ percentage }) => {
+  // Ensure percentage is within 0 to 100
+  const clampedPercentage = Math.max(0, Math.min(percentage, 100));
+  const yPosition = (24 * (100 - clampedPercentage)) / 100; // Calculate Y position based on percentage
+
+  // Generate a unique ID for the clip path to avoid ID conflicts if multiple clouds are rendered
+  const clipPathId = React.useMemo(() => `clip-${Math.random().toString(36).substr(2, 9)}`, []);
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      strokeWidth={0.5}
+      stroke="currentColor"
+      width={200}
+      height={200}
+    >
+      <defs>
+        <clipPath id={clipPathId}>
+          {/* Rectangle that determines the filled area based on the percentage */}
+          <rect x="0" y={yPosition} width="24" height={24 - yPosition} />
+        </clipPath>
+      </defs>
+
+      {/* Filled cloud shape clipped to the percentage */}
+      <path
+        fill="#5cc6fe"
+        d ="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75
+           3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848
+           5.25 5.25 0 0 0-10.233
+           2.33A4.502 4.502 0 0 0 2.25 15Z"
+        clipPath={`url(#${clipPathId})`}
+      />
+
+      {/* Cloud outline */}
+      <path
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d ="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75
+           3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848
+           5.25 5.25 0 0 0-10.233
+           2.33A4.502 4.502 0 0 0 2.25 15Z"
+      />
+    </svg>
+  );
+};
+
+```
+
+GPT o1 used a [ClipPath](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/clipPath) to partially render a filled cloud behind the outline of the cloud.  
+Honestly the solution is pretty good, and I am impressed by how well it understood the prompt.
+
+Now let's test the two solutions against each other.
+
+## Comparing the Solutions
+
+At first glance, the two solutions look pretty similar. The LLM solution appears to be working as intended.
+But let's see how they perform when we manipulate the percentage value. 
+
+If you use the slider below you will see that the LLM solution does not begin to fill the shape until the slider is above 20% and on the upper-bound it fills the entire shape when the percentage is 80% or above.
+
+<CloudLoader compare={true} id="2" />
+
+
+## The Verdict
+
+So where does this leave us? Are LLMs ready to take over moderately complex frontend tasks?
+
+While the technology is undeniably useful, the answer to wether LLMs are ready to take over engineering tasks without any human supervision is still a ***resounding No***, 
+although this does not mean that some companies will not try to go down this path.
+
+It's hard to extrapolate too much from a single example, but one thing is for certain, software engineering has always been about exactness and precision just as much as it is about creativity and innovation.
+
+While LLMs are great at generating content, answering questions, and empowering developers, getting them to produce consistent, bug-free code on their own will take a major breakthrough in the field. 
+
+Perhaps multiple agents iterating on the same code could be a step in the right direction? However I beleive this will continue to be a challenge for the foreseeable future, after all, LLMs are trained on billions of lines of "imperfect" code written by humans and we still haven't solved that problem ourselves.

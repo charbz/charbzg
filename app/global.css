@@ -1,4 +1,7 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 
 ::selection {
   background-color: #47a3f3;
@@ -6,24 +9,18 @@
 }
 
 :root {
-  --sh-class: #2d5e9d;
-  --sh-identifier: #354150;
-  --sh-sign: #8996a3;
-  --sh-string: #007f7a;
-  --sh-keyword: #e02518;
-  --sh-comment: #a19595;
-  --sh-jsxliterals: #6266d1;
-  --sh-property: #e25a1c;
-  --sh-entity: #e25a1c;
+  --sh-class: #7dd3fc;
+  --sh-identifier: white;
+  --sh-sign: #6e8fbd;
+  --sh-string: #7dd3fc;
+  --sh-keyword: #f472b6;
+  --sh-comment: #94a3b8;
+  --sh-jsxliterals: #b3e6ff;
+  --sh-property: #ffffff;
+  --sh-entity: #f472b6;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --sh-class: #4c97f8;
-    --sh-identifier: white;
-    --sh-keyword: #f47067;
-    --sh-string: #0fa295;
-  }
   html {
     color-scheme: dark;
   }
@@ -31,6 +28,22 @@
 
 html {
   min-width: 360px;
+}
+
+.superlink {
+  @apply dark:text-white text-slate-900;
+  @apply font-semibold;
+  font-size: 1em;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid;
+  padding-bottom: 1px;
+  @apply border-blue-prime;
+}
+
+.superlink:hover {
+  border-bottom: 2px solid;
+  @apply border-blue-prime;
+  @apply dark:text-blue-prime;
 }
 
 .prose .anchor {
@@ -48,7 +61,7 @@ html {
 }
 
 .prose a {
-  @apply underline transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.1em];
+  @apply underline transition-all dark:text-white font-semibold decoration-blue-prime underline-offset-4 decoration-[0.1em];
 }
 
 .prose .anchor:after {
@@ -61,7 +74,7 @@ html {
 }
 
 .prose pre {
-  @apply bg-neutral-50 dark:bg-neutral-900 rounded-lg overflow-x-auto border border-neutral-200 dark:border-neutral-900 py-2 px-3 text-sm;
+  @apply bg-[#1e293b] rounded-lg mt-8 mb-8 overflow-x-auto border border-neutral-200 border-[#3a475c] py-2 px-3 text-xsm;
 }
 
 .prose code {
@@ -87,20 +100,24 @@ html {
   @apply my-4 text-neutral-800 dark:text-neutral-200;
 }
 
+.prose .prompt p {
+  @apply dark:text-gray-400 text-neutral-600 ml-4;
+}
+
 .prose h1 {
-  @apply text-4xl font-medium tracking-tight mt-6 mb-2;
+  @apply text-4xl font-medium tracking-tight mt-6 mb-2 dark:text-white;
 }
 
 .prose h2 {
-  @apply text-xl font-medium tracking-tight mt-6 mb-2;
+  @apply text-2xl font-medium tracking-tight mt-9 mb-4 dark:text-white;
 }
 
 .prose h3 {
-  @apply text-xl font-medium tracking-tight mt-6 mb-2;
+  @apply text-xl font-medium tracking-tight mt-6 mb-2 dark:text-white;
 }
 
 .prose h4 {
-  @apply text-lg font-medium tracking-tight mt-6 mb-2;
+  @apply text-lg font-medium tracking-tight mt-6 mb-2 dark:text-white;
 }
 
 .prose strong {
@@ -147,4 +164,8 @@ table {
 
 .title {
   text-wrap: balance;
+}
+
+body {
+  @apply text-slate-700 dark:text-slate-300;
 }
