@@ -3,6 +3,8 @@ import { CustomMDX } from 'app/components/mdx'
 import { formatDate, getBlogPosts } from 'app/blog/utils'
 import { baseUrl } from 'app/sitemap'
 import MDXComponents from 'app/components/MDXComponents'
+import Comments from 'app/components/Comments'
+import PageBreak from 'app/components/pageBreak'
 
 
 export async function generateStaticParams() {
@@ -92,9 +94,11 @@ export default function Blog({ params }) {
           {formatDate(post.metadata.publishedAt)}
         </p>
       </div>
-      <article className="prose">
+      <article className="prose mb-16">
         <CustomMDX source={post.content} components={MDXComponents} />
       </article>
+      <PageBreak className="my-8" />
+      <Comments />
     </section>
   )
 }

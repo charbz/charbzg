@@ -6,6 +6,8 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import Footer from './components/footer'
 import { baseUrl } from './sitemap'
+import Script from 'next/script'
+
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -51,6 +53,16 @@ export default function RootLayout({
       )}
     >
       <head>
+      <Script async src="https://www.googletagmanager.com/gtag/js?id=G-X1TFSRLJWP" strategy="afterInteractive"></Script>
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-X1TFSRLJWP');
+        `}
+        </Script>
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />

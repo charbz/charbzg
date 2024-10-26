@@ -1,0 +1,103 @@
+body * {
+    border-color: #fff;
+}
+.gsc-comment-box-tabs {
+    background: #1a1e28;
+}
+.input-contrast:focus {
+    background-color: #fff;
+}
+.gsc-comment-box-textarea:focus {
+    border-color: #eaeaea;
+}
+.input-contrast {
+    background-color: #f0f6ff;
+}
+.BtnGroup-item.BtnGroup-item--selected {
+    background-color: transparent;
+    border-color: transparent;
+}
+.color-bg-tertiary.color-border-primary.gsc-comment-box-tabs {
+    background: #f8f8f8;
+}
+.gsc-comment-box-textarea-extras {
+    display: none;
+}
+.color-box-border-info {
+    border-color: #dcdcdc;
+}
+.color-border-primary {
+    border-color: #dcdcdc;
+}
+.form-control {
+    border-color: #eaeaea;
+    background-color: #f7f7f7;
+}
+.color-bg-canvas {
+    background: #fff;
+}
+.color-bg-primary {
+    background: #fff;
+}
+.btn.btn-primary,
+.btn.btn-primary:disabled {
+    background-color: #00a8ff;
+    border-color: #53bdf4;
+    color: #ffffff;
+}
+.btn {
+    background-color: transparent;
+    border-color: transparent;
+}
+.color-fg-default, .color-text-primary, .link-primary {
+    color: #585858;
+}
+.gsc-social-reaction-summary-item,
+.gsc-social-reaction-summary-item.has-reacted {
+    background-color: #303748;
+    border-color: transparent;
+}
+.gsc-social-reaction-summary-item,
+.gsc-social-reaction-summary-item.has-reacted,
+.gsc-social-reaction-summary-item.has-reacted:hover,
+.gsc-social-reaction-summary-item.has-reacted:hover:enabled {
+    background-color: #fff;
+}
+.gsc-reactions-popover.open {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+}
+.gsc-reactions-popover.open.bottom:before {
+    border-bottom-color: #e7e7e7;
+}
+.gsc-reactions-popover.open.top:before {
+    border-top-color: #e7e7e7;
+}
+.gsc-emoji-button.has-reacted {
+    border-width: 0px;
+    opacity: 0.3;
+}
+.gsc-reply-box {
+    border-top-width: 0;
+    padding-inline-end: 0;
+    padding-bottom: 0px;
+    padding-inline-start: 0;
+    padding-top: 0;
+    width: 103px;
+    color: #7c8190;
+    margin: 5px 8px;
+}
+.color-bg-tertiary {
+    background-color: #fff;
+}
+.gsc-comment-footer, .gsc-reply-footer {
+    align-content: center;
+    display: flex;
+    gap: .5rem;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+.gsc-reply-box .form-control {
+    background: #ffffff;
+    border-color: transparent;
+}

@@ -20,14 +20,13 @@
   --sh-entity: #f472b6;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
-
 html {
   min-width: 360px;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 .superlink {
@@ -74,7 +73,7 @@ html {
 }
 
 .prose pre {
-  @apply bg-[#1e293b] rounded-lg mt-8 mb-8 overflow-x-auto border border-neutral-200 border-[#3a475c] py-2 px-3 text-xsm;
+  @apply bg-[#1e293b] rounded-lg mt-8 mb-8 overflow-x-auto border border-[#3a475c] py-2 px-3 text-xsm;
 }
 
 .prose code {
