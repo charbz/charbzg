@@ -9,7 +9,7 @@ export function Logo() {
                 src="/images/logo.svg"
                 alt="logo"
                 width={220}
-                height={30}
+                height={50}
                 className="rounded-full hidden dark:block"
             />
             <Image

@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import Giscus from '@giscus/react';
 
 export default function Comments() {
-  const [theme, setTheme] = useState('https://charbz.github.io/charbzgcss/giscus.css');
+  const [theme, setTheme] = useState('https://www.charbzg.com/css/giscus.css');
 
   useEffect(() => {
     const updateTheme = () => {
       document.documentElement.classList.contains('dark')
-        ? setTheme('https://charbz.github.io/charbzgcss/giscus.css')
-        : setTheme('https://charbz.github.io/charbzgcss/giscus-light.css');
+        ? setTheme('https://www.charbzg.com/css/giscus.css')
+        : setTheme('https://www.charbzg.com/css/giscus-light.css');
     };
 
     updateTheme();

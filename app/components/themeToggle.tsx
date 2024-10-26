@@ -20,7 +20,7 @@ export function ThemeToggle() {
   }
 
   return (
-    <div className="flex justify-end align-middle relative py-1 px-2 m-1">
+    <div className="flex md:justify-end justify-center align-middle relative py-1 px-2 m-1">
         {enabled ? <SunIcon className="size-6 mr-2 opacity-40"/> : <SunIconSolid className="size-6 mr-2"/>}
         <Switch
         checked={enabled}
