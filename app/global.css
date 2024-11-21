@@ -11,10 +11,10 @@
 :root {
   --sh-class: #7dd3fc;
   --sh-identifier: white;
-  --sh-sign: #6e8fbd;
+  --sh-sign: #ffffff;
   --sh-string: #7dd3fc;
   --sh-keyword: #f472b6;
-  --sh-comment: #94a3b8;
+  --sh-comment: #677c9d;
   --sh-jsxliterals: #b3e6ff;
   --sh-property: #ffffff;
   --sh-entity: #f472b6;

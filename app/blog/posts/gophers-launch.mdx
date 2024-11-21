@@ -53,36 +53,36 @@ foos := list.NewList([]Foo{
 
 
 foos.Filter(func(f Foo) bool { return f.a%2 == 0 }) 
-
-// List[Foo] {{2 two} {4 four}}
+// output:
+// {{2 two} {4 four}}
 
 foos.FilterNot(func(f Foo) bool { return f.a%2 == 0 }) 
-
-// List[Foo] {{1 one} {3 three} {5 five}}
+// output:
+// {{1 one} {3 three} {5 five}}
 
 foos.Find(func(f Foo) bool { return f.a == 3 }) 
-
+// output:
 // {a: 3, b: "three"}
 
 foos.Partition(func(f Foo) bool { return len(f.b) == 3 })
-
-// List[Foo] {{1 one} {2 two}} , List[Foo] {{3 three} {4 four} {5 five}}
+// output:
+// {{1 one} {2 two}} , {{3 three} {4 four} {5 five}}
 
 foos.SplitAt(3) 
-
-// List[Foo] {{1 one} {2 two} {3 three} {4 four}} , List[Foo] {{5 five}}
+// output:
+// {{1 one} {2 two} {3 three} {4 four}} , {{5 five}}
 
 foos.Count(func(f Foo) bool { return f.a < 3 }) 
-
+// output:
 // 2
 
 bars := foos.Concat(list.NewList([]Foo{{a: 1, b: "one"}, {a: 2, b: "two"}})) 
-
-// List[Foo] {{1 one} {2 two} {3 three} {4 four} {5 five} {1 one} {2 two}}
+// output:
+// {{1 one} {2 two} {3 three} {4 four} {5 five} {1 one} {2 two}}
 
 bars.Distinct(func(i Foo, j Foo) bool { return i.a == j.a }) 
-
-// List[Foo] {{1 one} {2 two} {3 three} {4 four} {5 five}}
+// output:
+// {{1 one} {2 two} {3 three} {4 four} {5 five}}
 
 foos.Apply(
   func(f Foo) Foo {
@@ -91,8 +91,8 @@ foos.Apply(
     return f
   }
 )
-
-// List[Foo] {{2 one * two} {4 two * two} {6 three * two} {8 four * two} {10 five * two}}
+// output:
+// {{2 one * two} {4 two * two} {6 three * two} {8 four * two} {10 five * two}}
 ```
 
 That's just the tip of the iceberg, the package is filled with a ton of useful methods for building and transforming collections,
@@ -112,9 +112,9 @@ type Collection[T any] interface {
 ```
 At a minimum, a collection must be able to add some element to itself (regardless of insertion order), return the number of elements it contains, and return an iterator over its elements.
 
-Then, I quickly realized that some of the methods I wanted to build such as `Filter`, `Map`, `Reduce` can apply to all collection types, while others such as `Reverse`, `Sort`, `SplitAt` only apply to ordered collections where index-based access is meaningful.
+Then, I quickly realized that some of the methods I wanted to build such as <span className="text-sm">`Filter`, `Map`, `Reduce`</span> can apply to all collection types, while others such as <span className="text-sm">`Reverse`, `Sort`, `SplitAt`</span> only apply to ordered collections where index-based access is meaningful.
 
-This is where the OrderedCollection interface comes in.
+This is where the <span className="text-sm">`OrderedCollection`</span> interface comes in.
 
 ```go
 type OrderedCollection[T any] interface {
@@ -135,18 +135,22 @@ Then I proceeded to implement a few basic collection types that would satisfy th
 ##### Sequence
   - an ordered collection wrapping a Go slice. 
   - great for fast random access.
+<br/>
 
 ##### ComparableSequence
   - a Sequence of comparable elements. 
   - offers extra functionality.
+<br/>
 
 ##### List
   - an ordered collection wrapping a linked list. 
   - great for fast insertion, removal, and implementing stacks and queues.
+<br/>
 
 ##### ComparableList
   - a List of comparable elements. 
   - offers extra functionality.
+<br/>
 
 ##### Set
   - a hash set of unique elements.
@@ -155,11 +159,22 @@ Then I proceeded to implement a few basic collection types that would satisfy th
 ### Generic Functions
 
 In order to reduce code duplication, I created a few generic functions that accept any Collection[T] as an argument, apply some transfomration, and return a new Collection[T] as the result.
-These can be found in the `functions.go` and `ordered_functions.go` files. 
+These can be found in the *functions.go* and *ordered_functions.go* files. 
 
-Here's an example of the `Filter` function:
+Here's an example of the generic <span className="text-sm">`Filter`</span> function:
 
 ```go
+// Filter returns a new collection containing only the elements that
+// satisfy the predicate function.
+//
+// example usage:
+//
+//	numbers := NewSequence([]int{1,2,3,4,5,6})
+//	Filter(numbers, func(t int) bool { return t % 2 == 0 })
+//
+// output:
+//
+//	[2,4,6]
 func Filter[T any](s Collection[T], f func(T) bool) Collection[T] {
 	result := s.New()
 	for v := range s.Values() {
@@ -170,3 +185,36 @@ func Filter[T any](s Collection[T], f func(T) bool) Collection[T] {
 	return result
 }
 ```
+
+### Collection Methods
+
+Now that I have my logic written in a generic function, I can create a new method on the concrete collection types that call the generic function.
+This would allow me to write something like <span className="text-sm">`sequence.Filter(...)`</span> which is more natural. 
+
+```go
+func (s *Sequence[T]) Filter(f func(T) bool) *Sequence[T] {
+	return Filter(s, f).(*Sequence[T])
+}
+```
+
+This pattern is followed across the board except in places where the concrete type needs to implement the method natively for efficiency.
+
+## What's Next?
+
+I'm excited to see where this project goes, I have a few more ideas of how to expand the package and make it more useful.
+
+- Add more collection types
+- Add more generic functions
+- Add benchmarks
+- Improve the efficiency of some methods
+- Add Iterators: instead of returning a slice, return an iterator that yields values one at a time.
+- Add support for Monads 
+
+## Contributing
+
+I welcome any and all contributions to the project, whether it be feature requests, bug reports, or code contributions.
+Please open an issue or submit a PR if you have any ideas or find any bugs. 
+
+To stay in touch, I have a [Discord server](https://discord.com/invite/vQ2dqQU6ve) where we can chat about the project and share ideas.
+
+Happy coding!
