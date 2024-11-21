@@ -30,7 +30,7 @@ module.exports = {
         '10': '3rem',
       },
       fontSize: {
-        xsm: '13px'
+        xsm: '12px'
       },
       fontFamily: {
         sans: ['InterVariable', ...defaultTheme.fontFamily.sans],
