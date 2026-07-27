@@ -1,0 +1,53 @@
+---
+title: 'It is empowering to hand off execution'
+publishedAt: '2026-07-26'
+summary: 'A response to "It\'s not empowering to hand off the details"'
+---
+
+I read [David Nicholas Williams](https://davidnicholaswilliams.com/)'s short blog post titled [It's not empowering to hand off the details](https://davidnicholaswilliams.com/its-not-empowering-to-hand-off-the-details/), in which he argues that AI cannot replace expertise because doing good work requires deep familiarity with the details. 
+
+**I couldn't agree more!**
+
+He articulates very well the puzzling phenomenon I see every day with _"AI-pilled"_ colleagues (including many engineers) who trust the model with far more than they should. They delegate the thinking and designing along with the execution, lose touch with the codebase, miss out on critical learnings, and then complain when the slop they produced doesn't solve the original problem.
+
+But I think the argument is incomplete without a counterexample. There is one phase where handing off work to AI is genuinely empowering, and that is worth defining and formalizing.
+
+## The 3 distinct phases of software development
+
+This is becoming a cliche, but I'll repeat it for completeness. You can break down any software development work into three distinct phases: **design**, **execution**, and **evaluation**.
+
+<img src="/images/swe-phases.jpg" alt="SWE Phases"/>
+
+### Design
+
+The design phase is the least understood by junior engineers and non-technical execs. It expands into:
+- Researching and understanding the problem space
+- building a mental model of it
+- weighing solutions against constraints, regulations, maintainability, and every other trade-off.
+
+I would argue design is the most challenging phase, and it's where the real value of a top-tier engineer shows. It's the stuff they pay us for. It is also where the details are discovered and formalized.
+
+### Execution
+
+The execution phase is where design gets translated into code. A lot of people think this is where our work starts, and it isn't. Recent CS grads often think this is what engineers *do*; a few years in, most of them realize it's the easiest part of the job.
+
+There are still real decisions to be made here. How to structure the classes, functions, and constants, which libraries to pull in, which data structures and algorithms to reach for. A good design artifact covers the core decisions about data models, cloud services, and storage systems, but it can never cover everything, and plenty is always left for execution.
+
+This is the layer where AI makes an enormous dent. A good coding agent like Claude Code, powered by a strong model and supervised by someone who knows what they're doing, can take the bulk of this work off your plate, and that is liberating.
+
+### Evaluation
+
+This is where you code review, test, and evaluate the solution before shipping it. It's becoming the new bottleneck, because human expertise is absolutely required here. It's the last chance to understand the structure of what was produced, to criticize or correct decisions that are short-sighted or missing context, and to verify that the thing actually works before you put your name on it. A human engineer is still responsible for the outcome no matter how good the model gets.
+
+
+## Why the same trick doesn't work for design and evaluation?
+
+So can you hand off parts of design and evaluation too?
+
+In principle, yes. As long as you, the coordinator, still understand the decisions that were made, understand the reasoning behind them, and can vouch for the AI and explain what it did.
+
+In practice, that condition is much harder to satisfy than it sounds. **it takes roughly the same effort to genuinely understand a design decision as it does to make it yourself.** To evaluate a trade-off, you have to load the same domain context, consider the same alternatives, and understand the same constraints that the decision-maker did. 
+
+##### _There's no shortcut that gets you the understanding without the work._
+
+So by all means, work with the model to research solutions and pressure-test your thinking. But you must stay in the driver's seat. Things start falling apart at exactly the point where you lose the context and let the model fill in the blanks.
